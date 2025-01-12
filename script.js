@@ -57,26 +57,69 @@ function generateVertical(i) {
 }
 
 function generatePaper() {
-    // 生成横式计算
-    const horizontalDiv = document.getElementById('horizontal');
-    horizontalDiv.innerHTML = '';
-    for (let i = 0; i < 10; i++) {
-        const problemDiv = document.createElement('div');
-        problemDiv.className = 'problem';
-        problemDiv.textContent = generateHorizontal();
-        horizontalDiv.appendChild(problemDiv);
-    }
+    const paperCount = parseInt(document.getElementById('paperCount').value) || 1;
+    const papersContainer = document.getElementById('papers');
+    const template = document.getElementById('paperTemplate');
     
-    // 生成竖式计算
-    const verticalDiv = document.getElementById('vertical');
-    verticalDiv.innerHTML = '';
-    for (let i = 0; i < 5; i++) {
-        const problemDiv = document.createElement('pre');
-        problemDiv.className = 'vertical';
-        problemDiv.textContent = generateVertical(i);
-        verticalDiv.appendChild(problemDiv);
+    // 清空现有试卷
+    papersContainer.innerHTML = '';
+    
+    // 生成指定数量的试卷
+    for (let paperIndex = 0; paperIndex < paperCount; paperIndex++) {
+        // 克隆模板
+        const paper = template.content.cloneNode(true);
+        const horizontalDiv = paper.querySelector('.horizontal');
+        const verticalDiv = paper.querySelector('.vertical-container');
+        
+        // 生成横式计算
+        for (let i = 0; i < 10; i++) {
+            const problemDiv = document.createElement('div');
+            problemDiv.className = 'problem';
+            problemDiv.textContent = generateHorizontal();
+            horizontalDiv.appendChild(problemDiv);
+        }
+        
+        // 生成竖式计算
+        for (let i = 0; i < 5; i++) {
+            const problemDiv = document.createElement('pre');
+            problemDiv.className = 'vertical';
+            problemDiv.textContent = generateVertical(i);
+            verticalDiv.appendChild(problemDiv);
+        }
+        
+        // 添加分页符（除了最后一份试卷）
+        if (paperIndex < paperCount - 1) {
+            const pageBreak = document.createElement('div');
+            pageBreak.className = 'page-break';
+            paper.appendChild(pageBreak);
+        }
+        
+        papersContainer.appendChild(paper);
     }
 }
 
+function downloadPDF() {
+    const element = document.getElementById('papers');
+    const opt = {
+        margin: 1,
+        filename: '数学练习题.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { 
+            scale: 2,
+            useCORS: true,
+            removeContainer: true,
+            height: element.clientHeight
+        },
+        jsPDF: { 
+            unit: 'cm', 
+            format: 'a4', 
+            orientation: 'portrait',
+            putOnlyUsedFonts: true,
+            compress: true
+        }
+    };
+
+    html2pdf().set(opt).from(element).save();
+}
 // 页面加载时自动生成一份试卷
 window.onload = generatePaper; 

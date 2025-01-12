@@ -13,7 +13,9 @@
                 margin: 2cm;
             }
         }
-        
+        .no-print {
+            text-align: center;
+        }
         .paper {
             width: 21cm;
             min-height: 29.7cm;
@@ -42,7 +44,9 @@
             display: inline-block;
             width: 200px;
         }
-        
+        .vertical-container {
+            width: 100%;
+        }
         .vertical {
             font-size: 24px;
             margin: 25px;
@@ -60,32 +64,50 @@
             margin-left: auto;     
             border-bottom: 2px solid black;
         }
+        .page-break {
+            page-break-after: always;
+            break-after: page;
+        }
     </style>
 </head>
 <body>
     <div class="no-print">
+        <select id="paperCount">
+            <option value="1">1份</option>
+            <option value="2">2份</option>
+            <option value="3">3份</option>
+            <option value="4">4份</option>
+            <option value="5">5份</option>
+            <option value="6">6份</option>
+        </select>
         <button onclick="generatePaper()">生成新试卷</button>
         <button onclick="window.print()">打印试卷</button>
+        <!--button onclick="downloadPDF()">下载PDF</button-->
     </div>
     
-    <div class="paper" id="paper">
-        <div class="header">
-            <h2>数学每日练习</h2>
-            <div class="info-line">
-                姓名：__________ 班级：__________ 日期：__________
+    <div id="papers"></div>  <!-- 新增容器用于存放多份试卷 -->
+    
+    <template id="paperTemplate">  <!-- 新增试卷模板 -->
+        <div class="paper">
+            <div class="header">
+                <h2>数学每日练习</h2>
+                <div class="info-line">
+                    姓名：__________ 班级：__________ 日期：__________
+                </div>
+            </div>
+            
+            <div class="section">
+                <h3>一、口算</h3>
+                <div class="horizontal"></div>
+            </div>
+            
+            <div class="section">
+                <h3>二、竖式计算</h3>
+                <div class="vertical-container"></div>
             </div>
         </div>
-        
-        <div class="section">
-            <h3>一、口算</h3>
-            <div id="horizontal"></div>
-        </div>
-        
-        <div class="section">
-            <h3>二、竖式计算</h3>
-            <div id="vertical"></div>
-        </div>
-    </div>
+    </template>
+    <!--script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script-->
     <script src="script.js"></script>
 </body>
 </html> 
