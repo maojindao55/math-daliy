@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>小学数学每日练习生成器</title>
+    <style>
+        @media print {
+            .no-print {
+                display: none;
+            }
+            @page {
+                size: A4;
+                margin: 2cm;
+            }
+        }
+        
+        .paper {
+            width: 21cm;
+            min-height: 29.7cm;
+            padding: 2cm;
+            margin: 1cm auto;
+            background: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .info-line {
+            margin: 10px 0;
+        }
+        
+        .section {
+            margin: 20px 0;
+        }
+        
+        .problem {
+            font-size: 24px;
+            margin: 20px;
+            display: inline-block;
+            width: 200px;
+        }
+        
+        .vertical {
+            font-size: 24px;
+            margin: 25px;
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+            line-height: 1.8em;
+            white-space: pre;
+        }
+        .vertical::after {
+            content: '';
+            display: block;
+            width: 40%;
+            height: 0.1em;
+            margin-left: auto;     
+            border-bottom: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print">
+        <button onclick="generatePaper()">生成新试卷</button>
+        <button onclick="window.print()">打印试卷</button>
+    </div>
+    
+    <div class="paper" id="paper">
+        <div class="header">
+            <h2>数学每日练习</h2>
+            <div class="info-line">
+                姓名：__________ 班级：__________ 日期：__________
+            </div>
+        </div>
+        
+        <div class="section">
+            <h3>一、口算</h3>
+            <div id="horizontal"></div>
+        </div>
+        
+        <div class="section">
+            <h3>二、竖式计算</h3>
+            <div id="vertical"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html> 
