@@ -90,6 +90,19 @@
                 font-size: 24px;
             }
         }
+        .vertical.fill-blank {
+            padding-top: 50px;
+        }
+        .vertical.fill-blank:after {
+            /* 在这里添加填空题特有的样式 */
+            content: "";
+            font-size: 12px;
+            border-bottom: none;
+        }
+        .blank {
+            font-size: 36px;  /* 调整大小 */
+            display: inline-block;
+        }
     </style>
 </head>
 <body>
@@ -101,6 +114,7 @@
             <option value="4">4份</option>
             <option value="5">5份</option>
             <option value="6">6份</option>
+            <option value="7">7份</option>
         </select>
         <button onclick="generatePaper()">生成新试卷</button>
         <button onclick="window.print()">打印试卷</button>

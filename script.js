@@ -55,6 +55,56 @@ function generateVertical(i) {
     }
     return item;
 }
+//生成竖式计算填空题
+function generateVerticalFill() {
+    const isAdd = Math.random() > 0.5;
+    let item = '';
+    
+    if (isAdd) {
+        const a = randomInt(10, 50);
+        const b = randomInt(10, Math.min(100 - a, 50));
+        const sum = a + b;
+        // 随机决定把哪个数字变成空白
+        const blankPosition = randomInt(1, 4);
+        
+        // 将个位和十位分开显示
+        const a1 = Math.floor(a/10), a2 = a%10;
+        const b1 = Math.floor(b/10), b2 = b%10;
+        const s1 = Math.floor(sum/10), s2 = sum%10;
+        
+        if (blankPosition === 1) {
+            item = `  <span class="blank">□</span> ${a2}\n+${b1} ${b2}\n────\n ${s1} ${s2}`;
+        } else if (blankPosition === 2) {
+            item = ` ${a1} <span class="blank">□</span>\n+${b1} ${b2}\n────\n ${s1} ${s2}`;
+        } else if (blankPosition === 3) {
+            item = ` ${a1} ${a2}\n+${b1} <span class="blank">□</span>\n────\n ${s1} ${s2}`;
+        } else {
+            item = ` ${a1} ${a2}\n+${b1} ${b2}\n────\n ${s1} <span class="blank">□</span>`;
+        }
+    } else {
+        const b = randomInt(10, 50);
+        const a = randomInt(b + 1, Math.min(b + 50, 99));
+        const difference = a - b;
+        // 随机决定把哪个数字变成空白
+        const blankPosition = randomInt(1, 4);
+        
+        // 将个位和十位分开显示
+        const a1 = Math.floor(a/10), a2 = a%10;
+        const b1 = Math.floor(b/10), b2 = b%10;
+        const d1 = Math.floor(difference/10), d2 = difference%10;
+        
+        if (blankPosition === 1) {
+            item = `  <span class="blank">□</span> ${a2}\n-${b1} ${b2}\n────\n ${d1} ${d2}`;
+        } else if (blankPosition === 2) {
+            item = ` ${a1} <span class="blank">□</span>\n-${b1} ${b2}\n────\n ${d1} ${d2}`;
+        } else if (blankPosition === 3) {
+            item = ` ${a1} ${a2}\n-${b1} <span class="blank">□</span>\n────\n ${d1} ${d2}`;
+        } else {
+            item = ` ${a1} ${a2}\n-${b1} ${b2}\n────\n ${d1} <span class="blank">□</span>`;
+        }
+    }
+    return item;
+}
 
 function generatePaper() {
     const paperCount = parseInt(document.getElementById('paperCount').value) || 1;
@@ -86,6 +136,11 @@ function generatePaper() {
             problemDiv.textContent = generateVertical(i);
             verticalDiv.appendChild(problemDiv);
         }
+        //再生成一道竖式计算填空题
+        const problemDiv = document.createElement('pre');
+        problemDiv.className = 'vertical fill-blank';
+        problemDiv.innerHTML = generateVerticalFill();
+        verticalDiv.appendChild(problemDiv);
         
         // 添加分页符（除了最后一份试卷）
         if (paperIndex < paperCount - 1) {
